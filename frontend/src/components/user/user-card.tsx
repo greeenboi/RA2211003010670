@@ -1,9 +1,9 @@
-import Link from "next/link";
-import type { User } from "@/data/sample-data";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import Link from 'next/link';
+import type { User } from '@/data/sample-data';
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 interface UserCardProps {
   user: User;
@@ -25,21 +25,28 @@ export function UserCard({ user, compact = false }: UserCardProps) {
         <div className="flex items-center gap-2">
           <Avatar className="h-8 w-8">
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {user.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div>
-            <Link href={`/profile/${user.username}`} className="font-medium hover:underline">
+            <Link
+              href={`/profile/${user.username}`}
+              className="font-medium hover:underline"
+            >
               {user.username}
             </Link>
-            <p className="text-xs text-muted-foreground">{followers.toLocaleString()} followers</p>
+            <p className="text-xs text-muted-foreground">
+              {followers.toLocaleString()} followers
+            </p>
           </div>
         </div>
-        <Button 
-          variant={isFollowing ? "outline" : "default"} 
+        <Button
+          variant={isFollowing ? 'outline' : 'default'}
           size="sm"
           onClick={toggleFollow}
         >
-          {isFollowing ? "Following" : "Follow"}
+          {isFollowing ? 'Following' : 'Follow'}
         </Button>
       </div>
     );
@@ -51,27 +58,38 @@ export function UserCard({ user, compact = false }: UserCardProps) {
         <div className="flex items-center gap-4">
           <Avatar className="h-16 w-16">
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {user.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <Link href={`/profile/${user.username}`} className="text-lg font-medium hover:underline">
+            <Link
+              href={`/profile/${user.username}`}
+              className="text-lg font-medium hover:underline"
+            >
               {user.name}
             </Link>
             <p className="text-muted-foreground">@{user.username}</p>
             <div className="mt-2 flex gap-4">
               <p className="text-sm">
-                <span className="font-medium">{followers.toLocaleString()}</span> followers
+                <span className="font-medium">
+                  {followers.toLocaleString()}
+                </span>{' '}
+                followers
               </p>
               <p className="text-sm">
-                <span className="font-medium">{following.toLocaleString()}</span> following
+                <span className="font-medium">
+                  {following.toLocaleString()}
+                </span>{' '}
+                following
               </p>
             </div>
           </div>
-          <Button 
-            variant={isFollowing ? "outline" : "default"}
+          <Button
+            variant={isFollowing ? 'outline' : 'default'}
             onClick={toggleFollow}
           >
-            {isFollowing ? "Following" : "Follow"}
+            {isFollowing ? 'Following' : 'Follow'}
           </Button>
         </div>
       </CardContent>

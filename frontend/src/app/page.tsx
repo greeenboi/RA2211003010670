@@ -1,15 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { getLatestPosts, type Post, getTopUsers, type User, getTrendingPosts } from "@/data/sample-data";
-import { PostCard } from "@/components/post/post-card";
-import { UserCard } from "@/components/user/user-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ModeToggle } from "@/components/theme/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
+import {
+  getLatestPosts,
+  type Post,
+  getTopUsers,
+  type User,
+  getTrendingPosts,
+} from '@/data/sample-data';
+import { PostCard } from '@/components/post/post-card';
+import { UserCard } from '@/components/user/user-card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ModeToggle } from '@/components/theme/theme-toggle';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -20,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = () => {
       setLoading(true);
-      
+
       setTimeout(() => {
         setPosts(getLatestPosts().slice(0, 3)); // Just show the first few posts on home
         setTopUsers(getTopUsers().slice(0, 3));
@@ -38,7 +44,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold">Social App</h1>
         <ModeToggle />
       </div>
-      
+
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="md:col-span-2">
           <div className="mb-6 flex items-center justify-between">
@@ -49,34 +55,32 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-          
-          {loading ? (
-            Array(3)
-              .fill(0)
-              .map((_, index) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
-                <Card key={index} className="mb-6">
-                  <CardHeader className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <Skeleton className="h-10 w-10 rounded-full" />
-                      <Skeleton className="h-4 w-32" />
-                    </div>
-                  </CardHeader>
-                  <Skeleton className="aspect-square w-full" />
-                  <CardContent className="p-4">
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-32" />
-                      <Skeleton className="h-4 w-full" />
-                      <Skeleton className="h-4 w-3/4" />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-          ) : (
-            posts.map((post) => <PostCard key={post.id} post={post} />)
-          )}
+
+          {loading
+            ? Array(3)
+                .fill(0)
+                .map((_, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
+                  <Card key={index} className="mb-6">
+                    <CardHeader className="p-4">
+                      <div className="flex items-center space-x-3">
+                        <Skeleton className="h-10 w-10 rounded-full" />
+                        <Skeleton className="h-4 w-32" />
+                      </div>
+                    </CardHeader>
+                    <Skeleton className="aspect-square w-full" />
+                    <CardContent className="p-4">
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-3/4" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+            : posts.map(post => <PostCard key={post.id} post={post} />)}
         </div>
-        
+
         <div className="space-y-6">
           <Card>
             <CardHeader>
@@ -88,7 +92,10 @@ export default function Home() {
                   .fill(0)
                   .map((_, index) => (
                     // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
-                    <div key={index} className="flex items-center space-x-2 py-2">
+                    <div
+                      key={index}
+                      className="flex items-center space-x-2 py-2"
+                    >
                       <Skeleton className="h-8 w-8 rounded-full" />
                       <div className="space-y-1">
                         <Skeleton className="h-3 w-24" />
@@ -98,7 +105,7 @@ export default function Home() {
                   ))
               ) : (
                 <>
-                  {topUsers.map((user) => (
+                  {topUsers.map(user => (
                     <UserCard key={user.id} user={user} compact />
                   ))}
                   <div className="mt-2 text-center">
@@ -112,7 +119,7 @@ export default function Home() {
               )}
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>Trending Posts</CardTitle>
@@ -120,20 +127,32 @@ export default function Home() {
             <CardContent>
               {loading ? (
                 <div className="space-y-2">
-                  {Array(3).fill(0).map((_, index) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: demo only
-                    <div key={index} className="flex items-center justify-between">
-                      <Skeleton className="h-4 w-32" />
-                      <Skeleton className="h-4 w-16" />
-                    </div>
-                  ))}
+                  {Array(3)
+                    .fill(0)
+                    .map((_, index) => (
+                      // biome-ignore lint/suspicious/noArrayIndexKey: demo only
+                      <div
+                        key={index}
+                        className="flex items-center justify-between"
+                      >
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-4 w-16" />
+                      </div>
+                    ))}
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {trendingPosts.map((post) => (
-                    <div key={post.id} className="flex items-center justify-between">
-                      <p className="text-sm font-medium truncate">{post.content}</p>
-                      <span className="text-xs text-muted-foreground">ID: {post.id}</span>
+                  {trendingPosts.map(post => (
+                    <div
+                      key={post.id}
+                      className="flex items-center justify-between"
+                    >
+                      <p className="text-sm font-medium truncate">
+                        {post.content}
+                      </p>
+                      <span className="text-xs text-muted-foreground">
+                        ID: {post.id}
+                      </span>
                     </div>
                   ))}
                   <div className="mt-4">

@@ -1,13 +1,23 @@
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
-import { formatDate } from "@/lib/utils";
-import { type Post, type Comment, getUserById, getPostComments } from "@/data/sample-data";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { formatDate } from '@/lib/utils';
+import {
+  type Post,
+  type Comment,
+  getUserById,
+  getPostComments,
+} from '@/data/sample-data';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
 
 interface PostCardProps {
   post: Post;
@@ -39,10 +49,15 @@ export function PostCard({ post }: PostCardProps) {
         <div className="flex items-center space-x-3">
           <Avatar>
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {user.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div>
-            <Link href={`/profile/${user.username}`} className="font-medium hover:underline">
+            <Link
+              href={`/profile/${user.username}`}
+              className="font-medium hover:underline"
+            >
               {user.username}
             </Link>
           </div>
@@ -70,7 +85,7 @@ export function PostCard({ post }: PostCardProps) {
             className="gap-1"
           >
             <Heart
-              className={`h-5 w-5 ${liked ? "fill-red-500 text-red-500" : ""}`}
+              className={`h-5 w-5 ${liked ? 'fill-red-500 text-red-500' : ''}`}
             />
           </Button>
           <Button
@@ -90,7 +105,7 @@ export function PostCard({ post }: PostCardProps) {
         </div>
 
         <div className="py-1">
-          <span className="font-medium">{user.username}</span>{" "}
+          <span className="font-medium">{user.username}</span>{' '}
           <span>{post.content}</span>
         </div>
 
@@ -105,18 +120,25 @@ export function PostCard({ post }: PostCardProps) {
         <CardFooter className="flex flex-col items-start p-4 pt-0">
           <Separator className="my-2" />
           <div className="w-full space-y-2">
-            {comments.map((comment) => {
+            {comments.map(comment => {
               const commentUser = getUserById(1); // Using default user for comments
-              
+
               return (
                 <div key={comment.id} className="flex items-start space-x-2">
                   <Avatar className="h-6 w-6">
-                    <AvatarImage src={commentUser.avatar} alt={commentUser.name} />
-                    <AvatarFallback>{commentUser.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarImage
+                      src={commentUser.avatar}
+                      alt={commentUser.name}
+                    />
+                    <AvatarFallback>
+                      {commentUser.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <div className="break-words">
-                      <span className="font-medium">{commentUser.username}</span>{" "}
+                      <span className="font-medium">
+                        {commentUser.username}
+                      </span>{' '}
                       <span>{comment.content}</span>
                     </div>
                     {comment.createdAt && (
