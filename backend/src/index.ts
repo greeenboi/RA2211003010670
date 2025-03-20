@@ -1,8 +1,10 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { rateLimiter } from 'hono-rate-limiter';
-import { store } from './lib/limiter';
+import { logger } from 'hono/logger';
+import { prettyJSON } from 'hono/pretty-json';
 import { getRouterName, showRoutes } from 'hono/dev';
+import { store } from './lib/limiter';
 import { Bootstrap } from './utils';
 
 const app = new Hono();
@@ -36,6 +38,9 @@ app.use(
 		store: store,
 	}),
 );
+
+app.use(logger());
+app.use(prettyJSON());
 
 Bootstrap(app);
 
