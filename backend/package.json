@@ -1,21 +1,20 @@
 {
-  "name": "backend",
-  "scripts": {
-    "dev": "bun run --hot src/index.ts",
-    "format": "biome format --write",
-    "lint": "biome lint --write"
-  },
-  "dependencies": {
-    "@hono-rate-limiter/redis": "^0.1.4",
-    "@hono/swagger-ui": "^0.5.1",
-    "@hono/zod-openapi": "^0.19.2",
-    "@upstash/redis": "^1.34.5",
-    "hono": "^4.7.5",
-    "hono-rate-limiter": "^0.4.2",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/bun": "latest"
-  }
+	"name": "backend",
+	"scripts": {
+		"dev": "bun run --hot src/index.ts",
+		"format": "biome format --write",
+		"lint": "biome lint --write"
+	},
+	"dependencies": {
+		"@hono-rate-limiter/redis": "^0.1.4",
+		"@hono/swagger-ui": "^0.5.1",
+		"@upstash/redis": "^1.34.5",
+		"hono": "^4.7.5",
+		"hono-rate-limiter": "^0.4.2",
+		"zod": "^3.24.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "latest"
+	}
 }
