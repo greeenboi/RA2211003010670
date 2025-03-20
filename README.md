@@ -47,3 +47,18 @@ Make sure to change the config file if you don't have access to the .env vars/
 
 
 ### Frontend
+
+Here is a simple guide to run the frontend:
+
+```bash
+cd frontend
+bun install
+bun dev
+```
+
+the frontend is a bit janky, but just is a simple feed ui on /, shows trending posts and users
+then separate pages for top users and trending posts.
+
+The main issue here is that i am using sample data in the same format prescribed in the requirements, since the backend calls keep giving me errors, i implemented sample data as fallback to the backend api calls.
+
+so lets go with that for now.
