@@ -44,6 +44,9 @@ bun dev
 ```
 
 Make sure to change the config file if you don't have access to the .env vars/
+---
+![image](https://github.com/user-attachments/assets/080d6033-3867-4fbc-a291-ec6a8ba72cfe)
+_rip backend_
 
 
 ### Frontend
@@ -62,3 +65,11 @@ then separate pages for top users and trending posts.
 The main issue here is that i am using sample data in the same format prescribed in the requirements, since the backend calls keep giving me errors, i implemented sample data as fallback to the backend api calls.
 
 so lets go with that for now.
+---
+![image](https://github.com/user-attachments/assets/cea41cb3-4007-4577-9ff1-4bc4a5347cff)
+![image](https://github.com/user-attachments/assets/76b35ac9-576b-4967-9420-c97d3e036cba)
+![image](https://github.com/user-attachments/assets/4ed286fb-86d0-4176-b800-e876cb263dd5)
+![image](https://github.com/user-attachments/assets/e858f122-bfea-4e28-a704-3fb4e5e27ca5)
+
+
+
