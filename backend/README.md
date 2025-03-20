@@ -41,3 +41,6 @@ response for posts 150
 }
 ```
 
+> ![tip]
+> your wierd ass api passthrough keeps giving me 401 on my requests. do me a favour and fix that
+> then the api would work
