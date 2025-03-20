@@ -43,6 +43,13 @@ bun install
 bun dev
 ```
 
+or if ur too cool for that, ive taken the liberty to dockerize this api
+
+```bash
+cd backend
+docker compose-up --build -d
+```
+
 Make sure to change the config file if you don't have access to the .env vars/
 ---
 ![image](https://github.com/user-attachments/assets/080d6033-3867-4fbc-a291-ec6a8ba72cfe)
