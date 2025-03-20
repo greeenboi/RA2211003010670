@@ -91,8 +91,8 @@ export default function Home() {
                 Array(3)
                   .fill(0)
                   .map((_, index) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
                     <div
+                    // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
                       key={index}
                       className="flex items-center space-x-2 py-2"
                     >
@@ -130,8 +130,8 @@ export default function Home() {
                   {Array(3)
                     .fill(0)
                     .map((_, index) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: demo only
                       <div
+                      // biome-ignore lint/suspicious/noArrayIndexKey: demo only
                         key={index}
                         className="flex items-center justify-between"
                       >

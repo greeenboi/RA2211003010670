@@ -1,26 +1,32 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getTopUsers, type User } from '@/data/sample-data';
+import type { User } from '@/data/sample-data';
+import { fetchTopUsers } from '@/actions/users';
 import { UserCard } from '@/components/user/user-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from 'sonner';
 
 export default function TopUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = () => {
+    const loadUsers = async () => {
       setLoading(true);
-
-      setTimeout(() => {
-        setUsers(getTopUsers());
+      try {
+        const topUsers = await fetchTopUsers();
+        setUsers(topUsers);
+      } catch (error) {
+        toast.error("Failed to load top users");
+        console.error("Error loading top users:", error);
+      } finally {
         setLoading(false);
-      }, 1000);
+      }
     };
 
-    fetchData();
+    loadUsers();
   }, []);
 
   return (
