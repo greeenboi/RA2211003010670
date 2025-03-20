@@ -13,18 +13,15 @@ export interface Post {
   id: number;
   userid: number;
   content: string;
-  image?: string;
-  createdAt?: string;
 }
 
 export interface Comment {
   id: number;
   postid: number;
   content: string;
-  createdAt?: string;
 }
 
-// Sample data in the new format
+// Sample data in the specified format
 export const usersMap: UserMap[] = [
   {
     "1": "John Doe",
@@ -36,36 +33,27 @@ export const posts: Post[] = [
   {
     id: 246,
     userid: 1,
-    content: "post about ant",
-    image: "https://images.unsplash.com/photo-1500964757637-c85e8a162699",
-    createdAt: "2023-06-02T12:30:00Z"
+    content: "post about ant"
   },
   {
     id: 247,
     userid: 10,
-    content: "New collection dropping next week. Stay tuned!",
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050",
-    createdAt: "2023-06-01T08:15:00Z"
+    content: "New collection dropping next week. Stay tuned!"
   },
   {
     id: 248,
     userid: 1,
-    content: "Just got my hands on the latest gaming console. Game night incoming!",
-    image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8",
-    createdAt: "2023-05-30T15:45:00Z"
+    content: "Just got my hands on the latest gaming console. Game night incoming!"
   },
   {
     id: 249,
     userid: 10,
-    content: "Made this delicious pasta dish from scratch today!",
-    image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601",
-    createdAt: "2023-05-29T18:30:00Z"
+    content: "Made this delicious pasta dish from scratch today!"
   },
   {
     id: 250,
     userid: 1,
-    content: "Just released a new open-source project. Check it out on GitHub!",
-    createdAt: "2023-05-28T10:00:00Z"
+    content: "Just released a new open-source project. Check it out on GitHub!"
   }
 ];
 
@@ -73,60 +61,56 @@ export const comments: Comment[] = [
   {
     id: 3893,
     postid: 246,
-    content: "Old comment",
-    createdAt: "2023-06-02T14:35:00Z"
+    content: "Old comment"
   },
   {
     id: 3894,
     postid: 246,
-    content: "The colors are amazing!",
-    createdAt: "2023-06-02T15:12:00Z"
+    content: "The colors are amazing!"
   },
   {
     id: 3895,
     postid: 247,
-    content: "Can't wait to see it!",
-    createdAt: "2023-06-01T09:45:00Z"
+    content: "Can't wait to see it!"
   },
   {
     id: 3896,
     postid: 248,
-    content: "Sweet setup! What games are you planning to play?",
-    createdAt: "2023-05-30T16:22:00Z"
+    content: "Sweet setup! What games are you planning to play?"
   },
   {
     id: 3897,
     postid: 248,
-    content: "Jealous! Mine hasn't arrived yet.",
-    createdAt: "2023-05-30T17:05:00Z"
+    content: "Jealous! Mine hasn't arrived yet."
   },
   {
     id: 3898,
     postid: 248,
-    content: "Let me know how it performs!",
-    createdAt: "2023-05-30T18:30:00Z"
+    content: "Let me know how it performs!"
   },
   {
     id: 3899,
     postid: 249,
-    content: "Looks amazing! Would love the recipe.",
-    createdAt: "2023-05-29T19:15:00Z"
+    content: "Looks amazing! Would love the recipe."
   },
   {
     id: 3900,
     postid: 250,
-    content: "Great work! Already starring it.",
-    createdAt: "2023-05-28T11:45:00Z"
+    content: "Great work! Already starring it."
   },
   {
     id: 3901,
     postid: 250,
-    content: "Impressive documentation!",
-    createdAt: "2023-05-28T12:30:00Z"
+    content: "Impressive documentation!"
   }
 ];
 
-// Helper functions to work with the new data structure
+interface PostWithComments extends Post {
+  commentCount: number;
+}
+
+// gae ass username
+// prob shouldnt say that ~~
 export function getUserName(userId: number): string {
   const userIdStr = userId.toString();
   for (const userMap of usersMap) {
@@ -154,23 +138,19 @@ export function getTrendingPosts(): Post[] {
   const postsWithCommentCount = posts.map(post => ({
     ...post,
     commentCount: getPostComments(post.id).length
-  }));
+  })) as PostWithComments[];
   
   return [...postsWithCommentCount]
     .sort((a, b) => b.commentCount - a.commentCount);
 }
 
 export function getLatestPosts(): Post[] {
-  return [...posts].sort((a, b) => {
-    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-    return dateB - dateA;
-  });
+  // Without createdAt, we'll just return in reverse order (assuming newer posts have higher IDs)
+  return [...posts].sort((a, b) => b.id - a.id);
 }
 
 export function getTopUsers(): User[] {
-  // Since we don't have a real follower count, we'll just create some users
-  // based on our user map for demonstration
+  // Create users based on our user map
   const topUsers: User[] = [];
   
   for (const userMap of usersMap) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getLatestPosts, type Post, getTopUsers, type User } from "@/data/sample-data";
+import { getLatestPosts, type Post, getTopUsers, type User, getTrendingPosts } from "@/data/sample-data";
 import { PostCard } from "@/components/post/post-card";
 import { UserCard } from "@/components/user/user-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +14,7 @@ import Link from "next/link";
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [topUsers, setTopUsers] = useState<User[]>([]);
+  const [trendingPosts, setTrendingPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Home() {
       setTimeout(() => {
         setPosts(getLatestPosts().slice(0, 3)); // Just show the first few posts on home
         setTopUsers(getTopUsers().slice(0, 3));
+        setTrendingPosts(getTrendingPosts().slice(0, 3));
         setLoading(false);
       }, 1000);
     };
@@ -113,30 +115,36 @@ export default function Home() {
           
           <Card>
             <CardHeader>
-              <CardTitle>Trending Topics</CardTitle>
+              <CardTitle>Trending Posts</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium">#photography</p>
-                  <span className="text-xs text-muted-foreground">3.5k posts</span>
+              {loading ? (
+                <div className="space-y-2">
+                  {Array(3).fill(0).map((_, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: demo only
+                    <div key={index} className="flex items-center justify-between">
+                      <Skeleton className="h-4 w-32" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium">#technology</p>
-                  <span className="text-xs text-muted-foreground">2.1k posts</span>
+              ) : (
+                <div className="space-y-2">
+                  {trendingPosts.map((post) => (
+                    <div key={post.id} className="flex items-center justify-between">
+                      <p className="text-sm font-medium truncate">{post.content}</p>
+                      <span className="text-xs text-muted-foreground">ID: {post.id}</span>
+                    </div>
+                  ))}
+                  <div className="mt-4">
+                    <Link href="/trending">
+                      <Button variant="outline" size="sm" className="w-full">
+                        View trending
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium">#food</p>
-                  <span className="text-xs text-muted-foreground">1.8k posts</span>
-                </div>
-              </div>
-              <div className="mt-4">
-                <Link href="/trending">
-                  <Button variant="outline" size="sm" className="w-full">
-                    Explore trending
-                  </Button>
-                </Link>
-              </div>
+              )}
             </CardContent>
           </Card>
         </div>

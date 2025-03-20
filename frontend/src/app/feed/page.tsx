@@ -61,7 +61,7 @@ export default function FeedPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            The latest posts from people you follow, updated in real-time.
+            The latest posts, sorted by post ID.
           </p>
         </CardContent>
       </Card>

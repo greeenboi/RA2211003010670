@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getTrendingPosts, type Post } from "@/data/sample-data";
+import { getTrendingPosts, type Post, getPostComments } from "@/data/sample-data";
 import { PostCard } from "@/components/post/post-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
 
 export default function TrendingPage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -30,18 +29,11 @@ export default function TrendingPage() {
       
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Popular Conversations</CardTitle>
+          <CardTitle>Most Discussed Posts</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">#photography</Badge>
-            <Badge variant="secondary">#technology</Badge>
-            <Badge variant="secondary">#food</Badge>
-            <Badge variant="secondary">#travel</Badge>
-            <Badge variant="secondary">#gaming</Badge>
-          </div>
-          <p className="mt-4 text-muted-foreground">
-            These posts are generating the most conversations right now.
+          <p className="text-muted-foreground">
+            These posts are generating the most conversations right now, sorted by number of comments.
           </p>
         </CardContent>
       </Card>
@@ -69,7 +61,14 @@ export default function TrendingPage() {
             </Card>
           ))
       ) : (
-        posts.map((post) => <PostCard key={post.id} post={post} />)
+        posts.map((post) => (
+          <div key={post.id} className="mb-1">
+            <div className="mb-2 text-xs text-muted-foreground">
+              {getPostComments(post.id).length} comments
+            </div>
+            <PostCard post={post} />
+          </div>
+        ))
       )}
     </div>
   );
