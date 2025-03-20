@@ -9,7 +9,7 @@ import { Bootstrap } from './utils';
 
 const app = new Hono();
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173', 'https://localhost:3001'];
 
 app.use(
 	cors({
