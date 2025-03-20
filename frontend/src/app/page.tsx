@@ -1,103 +1,146 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import { getLatestPosts, type Post, getTopUsers, type User } from "@/data/sample-data";
+import { PostCard } from "@/components/post/post-card";
+import { UserCard } from "@/components/user/user-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ModeToggle } from "@/components/theme/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [topUsers, setTopUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const fetchData = () => {
+      setLoading(true);
+      
+      setTimeout(() => {
+        setPosts(getLatestPosts().slice(0, 3)); // Just show the first few posts on home
+        setTopUsers(getTopUsers().slice(0, 3));
+        setLoading(false);
+      }, 1000);
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="mx-auto max-w-7xl">
+      <div className="flex items-center justify-between pb-6 md:hidden">
+        <h1 className="text-2xl font-bold">Social App</h1>
+        <ModeToggle />
+      </div>
+      
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Latest Posts</h2>
+            <Link href="/feed">
+              <Button variant="ghost" size="sm" className="gap-1">
+                View all <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          
+          {loading ? (
+            Array(3)
+              .fill(0)
+              .map((_, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
+                <Card key={index} className="mb-6">
+                  <CardHeader className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <Skeleton className="h-10 w-10 rounded-full" />
+                      <Skeleton className="h-4 w-32" />
+                    </div>
+                  </CardHeader>
+                  <Skeleton className="aspect-square w-full" />
+                  <CardContent className="p-4">
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-32" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+          ) : (
+            posts.map((post) => <PostCard key={post.id} post={post} />)
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Top Users</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: sussy baka
+                    <div key={index} className="flex items-center space-x-2 py-2">
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                      <div className="space-y-1">
+                        <Skeleton className="h-3 w-24" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                    </div>
+                  ))
+              ) : (
+                <>
+                  {topUsers.map((user) => (
+                    <UserCard key={user.id} user={user} compact />
+                  ))}
+                  <div className="mt-2 text-center">
+                    <Link href="/top-users">
+                      <Button variant="outline" size="sm" className="w-full">
+                        View all users
+                      </Button>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Trending Topics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">#photography</p>
+                  <span className="text-xs text-muted-foreground">3.5k posts</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">#technology</p>
+                  <span className="text-xs text-muted-foreground">2.1k posts</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">#food</p>
+                  <span className="text-xs text-muted-foreground">1.8k posts</span>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Link href="/trending">
+                  <Button variant="outline" size="sm" className="w-full">
+                    Explore trending
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
