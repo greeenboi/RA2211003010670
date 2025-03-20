@@ -15,6 +15,7 @@ It has been configured with logging, prettyjson, cors, ratelimiting and cache on
 
 port is `5173`
 routes are:
+```
 ALL  /*
        cors2
        [middleware]
@@ -34,7 +35,7 @@ GET  /users
        [handler]
 GET  /posts
        [handler]
-
+```
 Now, to run the backend, you can use the following commands:
 
 ```bash
