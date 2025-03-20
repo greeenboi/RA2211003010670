@@ -49,4 +49,7 @@ showRoutes(app, {
 	verbose: true,
 });
 
-export default app;
+export default {
+	port: 5173, 
+	fetch: app.fetch, 
+}

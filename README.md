@@ -13,6 +13,7 @@ Below is a simple an quick guide to the submission of the project.
 
 It has been configured with logging, prettyjson, cors, ratelimiting and cache on redis.
 
+port is `5173`
 routes are:
 ALL  /*
        cors2
