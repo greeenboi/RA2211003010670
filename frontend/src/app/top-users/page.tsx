@@ -7,6 +7,7 @@ import { UserCard } from '@/components/user/user-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import { getTopUsers } from '@/data/sample-data';
 
 export default function TopUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -17,9 +18,18 @@ export default function TopUsersPage() {
       setLoading(true);
       try {
         const topUsers = await fetchTopUsers();
-        setUsers(topUsers);
+        if (!topUsers || !Array.isArray(topUsers) || topUsers.length === 0) {
+          const sampleUsers = getTopUsers();
+          setUsers(sampleUsers || []);
+          toast.info("Using sample user data");
+        } else {
+          setUsers(topUsers);
+        }
       } catch (error) {
-        toast.error("Failed to load top users");
+        // Fall back moment
+        const sampleUsers = getTopUsers();
+        setUsers(sampleUsers || []); // idk why but this needs to be an array
+        toast.warning("Failed to load top users, using sample data instead");
         console.error("Error loading top users:", error);
       } finally {
         setLoading(false);
@@ -28,6 +38,14 @@ export default function TopUsersPage() {
 
     loadUsers();
   }, []);
+
+  const renderUsers = () => {
+    if (!Array.isArray(users)) {
+      console.error("Users is not an array:", users);
+      return null;
+    }
+    return users.map(user => <UserCard key={user.id} user={user} />);
+  };
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -68,7 +86,7 @@ export default function TopUsersPage() {
                   </CardContent>
                 </Card>
               ))
-          : users.map(user => <UserCard key={user.id} user={user} />)}
+          : renderUsers()}
       </div>
     </div>
   );
